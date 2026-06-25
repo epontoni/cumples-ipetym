@@ -40,6 +40,7 @@ export default function Home() {
   
   // Celebration overlay visibility
   const [showCelebration, setShowCelebration] = useState(true);
+  const [confettiParticles, setConfettiParticles] = useState([]);
 
   // Fetch birthdays from the local API
   const fetchBirthdays = async () => {
@@ -59,9 +60,12 @@ export default function Home() {
 
   // Clock tick and day rollover checking
   useEffect(() => {
-    // Set initial values on client mount
+    // Set initial values on client mount (deferred to avoid React 19 cascading render warning)
     currentDayRef.current = getTodayDate().getDate();
-    setSelectedMonth(getTodayDate().getMonth() + 1);
+    const initialMonth = getTodayDate().getMonth() + 1;
+    setTimeout(() => {
+      setSelectedMonth(initialMonth);
+    }, 0);
 
     const updateTime = () => {
       const now = new Date();
@@ -98,7 +102,10 @@ export default function Home() {
 
   // Initial fetch and hourly auto-refresh
   useEffect(() => {
-    fetchBirthdays();
+    // Fetch birthdays deferred to avoid React 19 cascading render warning
+    setTimeout(() => {
+      fetchBirthdays();
+    }, 0);
     
     // Refresh data in background every 1 hour (3600000 ms)
     const backgroundFetchInterval = setInterval(fetchBirthdays, 3600000);
@@ -170,24 +177,44 @@ export default function Home() {
   const todayBirthdays = getTodayBirthdays();
   const hasBirthdaysToday = todayBirthdays.length > 0;
 
+  // Loop celebration overlay: show for 10 seconds, hide for 5 seconds in a loop
+  useEffect(() => {
+    if (!hasBirthdaysToday) return;
+
+    const timer = setTimeout(() => {
+      setShowCelebration((prev) => !prev);
+    }, showCelebration ? 10000 : 5000);
+
+    return () => clearTimeout(timer);
+  }, [showCelebration, hasBirthdaysToday]);
+
+  // Generate confetti particle styles on the client side to avoid SSR mismatch and impure renders
+  useEffect(() => {
+    if (hasBirthdaysToday && confettiParticles.length === 0) {
+      const particles = [];
+      const colors = ["#6366f1", "#a855f7", "#06b6d4", "#fbbf24", "#ec4899", "#10b981"];
+      for (let i = 0; i < 50; i++) {
+        particles.push({
+          left: `${Math.random() * 100}%`,
+          backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+          width: `${Math.random() * 8 + 6}px`,
+          height: `${Math.random() * 8 + 6}px`,
+          animationDelay: `${Math.random() * 6}s`,
+          animationDuration: `${Math.random() * 4 + 4}s`,
+          transform: `rotate(${Math.random() * 360}deg)`,
+        });
+      }
+      setTimeout(() => {
+        setConfettiParticles(particles);
+      }, 0);
+    }
+  }, [hasBirthdaysToday, confettiParticles.length]);
+
   // Generate lightweight confetti particles
   const renderConfetti = () => {
-    const particles = [];
-    const colors = ["#6366f1", "#a855f7", "#06b6d4", "#fbbf24", "#ec4899", "#10b981"];
-    
-    for (let i = 0; i < 50; i++) {
-      const style = {
-        left: `${Math.random() * 100}%`,
-        backgroundColor: colors[Math.floor(Math.random() * colors.length)],
-        width: `${Math.random() * 8 + 6}px`,
-        height: `${Math.random() * 8 + 6}px`,
-        animationDelay: `${Math.random() * 6}s`,
-        animationDuration: `${Math.random() * 4 + 4}s`,
-        transform: `rotate(${Math.random() * 360}deg)`,
-      };
-      particles.push(<div key={i} className="confetti-particle" style={style} />);
-    }
-    return particles;
+    return confettiParticles.map((style, i) => (
+      <div key={i} className="confetti-particle" style={style} />
+    ));
   };
 
   return (
