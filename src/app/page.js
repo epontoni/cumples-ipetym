@@ -325,7 +325,6 @@ export default function Home() {
         </section>
       )}
 
-      {/* Footer */}
       <footer className="footer">
         <div className="footer-info">
           <span>IPETyM Birthday Board v1.0</span>
@@ -351,6 +350,23 @@ export default function Home() {
             </>
           )}
         </div>
+
+        <div className="footer-qr-container">
+          <span>Cargá tu cumpleaños aquí:</span>
+          <a 
+            href="https://docs.google.com/spreadsheets/d/1CpDQahoKzKByyWqYgagJvxCMT43O32B6R6MIlAg5he4/edit?gid=0#gid=0" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            title="Cargar cumpleaños en planilla"
+          >
+            <img 
+              src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2F1CpDQahoKzKByyWqYgagJvxCMT43O32B6R6MIlAg5he4%2Fedit%3Fgid%3D0%23gid%3D0&color=080916&bgcolor=ffffff" 
+              alt="Código QR Planilla" 
+              className="footer-qr-image"
+            />
+          </a>
+        </div>
+
         <div className="footer-status-indicator">
           <span className="status-dot"></span>
           <span>Datos sincronizados</span>

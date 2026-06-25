@@ -523,6 +523,40 @@ html, body {
   }
 }
 
+/* QR code scanner badge */
+.footer-qr-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  padding: 6px 16px;
+  border-radius: 14px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.footer-qr-container:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-focus);
+  color: var(--color-text-primary);
+}
+
+.footer-qr-image {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  border: 2px solid white;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: block;
+}
+
+.footer-qr-image:hover {
+  transform: scale(1.15);
+}
+
 /* Responsive Media Queries */
 @media (max-width: 1240px) {
   .app-container {
