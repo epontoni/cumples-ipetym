@@ -354,13 +354,13 @@ export default function Home() {
         <div className="footer-qr-container">
           <span>Cargá tu cumpleaños aquí:</span>
           <a 
-            href="https://docs.google.com/spreadsheets/d/1CpDQahoKzKByyWqYgagJvxCMT43O32B6R6MIlAg5he4/edit?gid=0#gid=0" 
+            href="https://docs.google.com/spreadsheets/d/1CpDQahoKzKByyWqYgagJvxCMT43O32B6R6MIlAg5he4/edit" 
             target="_blank" 
             rel="noopener noreferrer"
             title="Cargar cumpleaños en planilla"
           >
             <img 
-              src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2F1CpDQahoKzKByyWqYgagJvxCMT43O32B6R6MIlAg5he4%2Fedit%3Fgid%3D0%23gid%3D0&color=080916&bgcolor=ffffff" 
+              src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fdocs.google.com%2Fspreadsheets%2Fd%2F1CpDQahoKzKByyWqYgagJvxCMT43O32B6R6MIlAg5he4%2Fedit&color=080916&bgcolor=ffffff" 
               alt="Código QR Planilla" 
               className="footer-qr-image"
             />
